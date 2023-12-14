@@ -1,5 +1,5 @@
 # UDPServer
-This repository contains a C program (server.c) implementing a reliable UDP server using Go-Back-N (GBN) protocol for basic functionality. The server establishes a connection, handles data transfer, and tears down the connection. The code includes packet structures, printing functions, and socket setup. It uses non-blocking sockets and provides timeout mechanisms. The server processes load instructions, prints events conforming to project specifications, and includes placeholders for additional features. Please note that this is a demonstration, and further implementation is needed for a complete solution.
+This repository contains a C program (server.c) implementing a reliable UDP server using Go-Back-N (GBN) protocol for basic functionality. The server establishes a connection, handles data transfer, and tears down the connection. The code includes packet structures, printing functions, and socket setup. It uses non-blocking sockets and provides timeout mechanisms. The server processes load instructions, prints events conforming to project specifications, and includes placeholders for additional features. 
 
 
 # Running the Reliable UDP Server:
