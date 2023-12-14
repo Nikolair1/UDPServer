@@ -18,7 +18,6 @@ The server will print events such as "RECV," "SEND," and "TIMEOUT" according to 
 Termination:
 Terminate the server manually (e.g., using Ctrl+C) after testing.
 
-# Diagram
-https://www.geeksforgeeks.org/sliding-window-protocol-set-2-receiver-side/
+# Diagram, explanation: https://www.geeksforgeeks.org/sliding-window-protocol-set-2-receiver-side/
 
 ![Sliding_SET_2-4](https://github.com/Nikolair1/UDPServer/assets/93243326/0623d281-1266-4a8a-bd9b-bfdfccb71781)
