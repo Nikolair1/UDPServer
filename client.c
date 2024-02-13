@@ -33,9 +33,7 @@ struct packet {
     char payload[PAYLOAD_SIZE];
 };
 
-// Printing Functions: Call them on receiving/sending/packet timeout according
-// Section 2.6 of the spec. The content is already conformant with the spec,
-// no need to change. Only call them at correct times.
+
 void printRecv(struct packet* pkt) {
     printf("RECV %d %d%s%s%s\n", pkt->seqnum, pkt->acknum, pkt->syn ? " SYN": "", pkt->fin ? " FIN": "", (pkt->ack || pkt->dupack) ? " ACK": "");
 }
@@ -51,8 +49,7 @@ void printTimeout(struct packet* pkt) {
     printf("TIMEOUT %d\n", pkt->seqnum);
 }
 
-// Building a packet by filling the header and contents.
-// This function is provided to you and you can use it directly
+
 void buildPkt(struct packet* pkt, unsigned short seqnum, unsigned short acknum, char syn, char fin, char ack, char dupack, unsigned int length, const char* payload) {
     pkt->seqnum = seqnum;
     pkt->acknum = acknum;
@@ -130,19 +127,11 @@ int main (int argc, char *argv[])
 
     int servaddrlen = sizeof(servaddr);
 
-    // NOTE: We set the socket as non-blocking so that we can poll it until
-    //       timeout instead of getting stuck. This way is not particularly
-    //       efficient in real programs but considered acceptable in this
-    //       project.
-    //       Optionally, you could also consider adding a timeout to the socket
-    //       using setsockopt with SO_RCVTIMEO instead.
+ 
     fcntl(sockfd, F_SETFL, O_NONBLOCK);
 
     // =====================================
-    // Establish Connection: This procedure is provided to you directly and is
-    // already working.
-    // Note: The third step (ACK) in three way handshake is sent along with the
-    // first piece of along file data thus is further below
+    // Establish Connection
 
     struct packet synpkt, synackpkt;
     unsigned short seqNum = initialSeqNum;
@@ -203,21 +192,7 @@ int main (int argc, char *argv[])
 
     e = 1;
 
-    // =====================================
-    // *** TODO: Implement the rest of reliable transfer in the client ***
-    // Implement GBN for basic requirement or Selective Repeat to receive bonus
-
-    // Note: the following code is not the complete logic. It only sends a
-    //       single data packet, and then tears down the connection without
-    //       handling data loss.
-    //       Only for demo purpose. DO NOT USE IT in your final submission
-
-    //printf("NOW MY CODE STARTS\n");
-    //bool doneTesting = false;
-
-    // int done = 0;
-    // int ackNumber = (synackpkt.seqnum + 1) % MAX_SEQN;
-    // int lastPacket = m;
+  
 
     seqNum = (seqNum + m) % MAX_SEQN;
     while (true) {
@@ -288,12 +263,10 @@ int main (int argc, char *argv[])
         }
     }
 
-    // *** End of your client implementation ***
+ 
     fclose(fp);
     // =====================================
-    // Connection Teardown: This procedure is provided to you directly and is
-    // already working.
-
+    // Connection Teardown
     struct packet finpkt, recvpkt;
     buildPkt(&finpkt, ackpkt.acknum, 0, 0, 1, 0, 0, 0, NULL);
     buildPkt(&ackpkt, (ackpkt.acknum + 1) % MAX_SEQN, (ackpkt.seqnum + 1) % MAX_SEQN, 0, 0, 1, 0, 0, NULL);
