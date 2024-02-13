@@ -17,7 +17,7 @@
 #define WND_SIZE 10 /* window size*/
 #define MAX_SEQN 25601 /* number of sequence numbers [0-25600] */
 
-// Packet Structure: Described in Section 2.1.1 of the spec. DO NOT CHANGE!
+
 struct packet {
     unsigned short seqnum;
     unsigned short acknum;
@@ -29,9 +29,7 @@ struct packet {
     char payload[PAYLOAD_SIZE];
 };
 
-// Printing Functions: Call them on receiving/sending/packet timeout according
-// Section 2.6 of the spec. The content is already conformant with the spec,
-// no need to change. Only call them at correct times.
+
 void printRecv(struct packet* pkt) {
     printf("RECV %d %d%s%s%s\n", pkt->seqnum, pkt->acknum, pkt->syn ? " SYN": "", pkt->fin ? " FIN": "", (pkt->ack || pkt->dupack) ? " ACK": "");
 }
@@ -48,7 +46,7 @@ void printTimeout(struct packet* pkt) {
 }
 
 // Building a packet by filling the header and contents.
-// This function is provided to you and you can use it directly
+
 void buildPkt(struct packet* pkt, unsigned short seqnum, unsigned short acknum, char syn, char fin, char ack, char dupack, unsigned int length, const char* payload) {
     pkt->seqnum = seqnum;
     pkt->acknum = acknum;
@@ -108,12 +106,7 @@ int main (int argc, char *argv[])
 
     int cliaddrlen = sizeof(cliaddr);
 
-    // NOTE: We set the socket as non-blocking so that we can poll it until
-    //       timeout instead of getting stuck. This way is not particularly
-    //       efficient in real programs but considered acceptable in this
-    //       project.
-    //       Optionally, you could also consider adding a timeout to the socket
-    //       using setsockopt with SOq_RCVTIMEO instead.
+ 
     fcntl(sockfd, F_SETFL, O_NONBLOCK);
 
     // =====================================
@@ -121,12 +114,7 @@ int main (int argc, char *argv[])
 
     for (int i = 1; ; i++) {
         // =====================================
-        // Establish Connection: This procedure is provided to you directly and
-        // is already working.
-
-        // For testing, we reset the sequence number to the initial sequence number (ISN) for all connections.
-        unsigned short seqNum = initialSeqNum;
-
+        // Establish Connection: 
         int n;
 
         FILE* fp;
@@ -189,13 +177,7 @@ int main (int argc, char *argv[])
                 break;
         }
 
-        // *** TODO: Implement the rest of reliable transfer in the server ***
-        // Implement GBN for basic requirement or Selective Repeat to receive bonus
-
-        // Note: the following code is not the complete logic. It only expects 
-        //       a single data packet, and then tears down the connection
-        //       without handling data loss.
-        //       Only for demo purpose. DO NOT USE IT in your final submission
+    
         struct packet recvpkt;
 
         while(1) {
